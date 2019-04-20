@@ -1,0 +1,66 @@
+﻿@model EKInvAFsemp.Common.Classes.Models.Marcas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Marcas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Marca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marca)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActInac)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActInac)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Imagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMarca)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMarca)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdMarca }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

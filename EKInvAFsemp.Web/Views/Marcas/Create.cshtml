@@ -1,0 +1,326 @@
+﻿@model EKInvAFsemp.Web.ViewModels.MarcasView
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Marca</title>
+
+
+    <script src="~/Scripts/jquery-3.3.1.slim.js"></script>
+    <script type="text/javascript" src="~/Content/js_input-file_bootstrap-filestyle.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/CSS/CSSelements.css" />
+    <link rel="stylesheet" type="text/css" href="~/CSS/CreateStyle.css" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Marca').focus();
+        });
+    </script>
+
+</head>
+<body>
+
+    <header style="border-color:darkblue; border-radius:3px">
+        <p class="alr"><span class="img"></span><h2>Agregar una Marca</h2></p>
+        <img src="~/Images/ViewMarcas/Catalogo.jpg" width="150" />
+    </header>
+
+
+    @using (Html.BeginForm("Create", "Marcas", FormMethod.Post, new { enctype = "multipart/form-data", Id = "marcaCreate" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+
+            <p id="msg">@ViewBag.ResultMessage</p>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "Textos" } })
+                    @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $('#Marca').change(function () {
+                            var marca = $("#Marca").val();
+                            $.ajax({
+                                type: "GET",
+                                url: "http://localhost:3201/api/MarcasAPI?marca=" + marca,
+                                datatype: "json",
+                                cache: false,
+                            })
+                                .done(function (data) {
+                                    if (data != null) {
+
+                                        $("#EncontradoFormulario").modal();
+                                        $('#Guardar').attr("disabled", true);
+                                        var outPut = "";
+                                        var imagen = data.Imagen;
+                                        outPut += "<b>YA EXISTE ESTA MARCA!!</b><br/>";
+                                        outPut += "<b>Marca :</b>" + data.Marca + "<br/>";
+                                        outPut += "<b>Descripcion :</b>" + data.Descripcion + "<br/>";
+                                        outPut += "<b>TipoMarca :</b>" + data.TipoMarca + "<br/>";
+                                        outPut += "<img src=" + imagen.substr(1) + " style='width:64px;height:64px;max-width: 100%; height: auto;' />";
+                                        $("#mensaje").html(outPut);
+
+
+                                    } else {
+
+                                        $('#Guardar').attr("disabled", false);
+                                    }
+                                })
+                                .error(function (xhr, ajaxOptions, thrownError) {
+                                    $("#msg").html("Error: an error occured");
+                                });
+                            return false;
+
+                        });
+
+                        $(document).ajaxStart(function () {
+                            $("#loading").show();
+                        });
+
+                        $(document).ajaxStop(function () {
+                            $("#loading").hide();
+                        });
+                    });
+
+
+                </script>
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "Textos" } })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TipoMarca, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TipoMarca", new SelectList(ViewBag.DropDownTipos,"IdTipos", "NombreTipo"), "--Seleccione Tipo--",
+                                new { @class = "btn btn-primary dropdown-toggle" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-sm-4">
+                    <input type="file" class="inputstl" id="ImageFile" name="ImageFile">
+                    <script>
+                        $('#ImageFile').filestyle({
+                            buttonName: 'btn-info',
+                            buttonText: ' Selecciona Imagen'
+                        });
+                    </script>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="col-md-10">
+                    <label class="control-label col-md-2">Estatus</label>
+                    <br />
+
+                    <label class="control-label">Inactivo</label>
+                    <label class="switch">
+                        <input type="checkbox" value="true" id="ActInac" name="ActInac">
+                        <span class="slider round"></span>
+                    </label>
+                    <label class="control-label">Activo</label>
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <a href="/Marcas/Index" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-backward"></span> Regresar
+                    </a>
+                    @*<button type="submit" value="Create" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span> Agregar
+                        </button>*@
+
+                    <button type="button" id="Guardar" name="Guardar" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> Guardar
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(function () {
+
+                    $('#Guardar').on("click", function () {
+                        var marca = $("#Marca").val();
+                        var descripcion = $("#Descripcion").val();
+                        var tipoMarca = $("#TipoMarca").val();
+                        if (marca.length == 0) {
+
+                            $("#CompletaFormulario").modal();
+                            $("#Leyenda").text("Falta Ingresar una Marca!!!");
+                            $("#Marca").focus();
+                            return false;
+                        }
+                        if (descripcion.length == 0) {
+
+                            $("#CompletaFormulario").modal();
+                            $("#Leyenda").text("Falta Ingresar una descripcion!!!");
+                            $("#Descripcion").focus();
+                            return false;
+                        }
+                        if (tipoMarca == 0) {
+
+                            $("#CompletaFormulario").modal();
+                            $("#Leyenda").text("Selecciona el tipo!!!");
+                            $("#TipoMarca").focus();
+                            return false;
+                        }
+                        //doy de alta la marca
+                        var formData1 = new FormData($('#marcaCreate')[0]);
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "/marcas/Create",
+                            data: formData1,
+                            dataType: "json",
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                if (data.Valid) {
+                                   
+                                    return;
+                                }
+                                $.each(data.Errors, function (key, value) {
+                                    if (value != null) {
+
+                                        return;
+                                    }
+                                });
+                            },
+                            error: function (xhr) {
+                                //Aca llama al controlador del VC no del Json por eso cae aqui
+
+                                $("#Marca").val("");
+                                $("#Descripcion").val("");
+                                $("#TipoMarca").val("");
+                                $("#ImageFile").val("");
+                               
+                                $("#loading").hide();
+                                $("#LeyendaExito").text("¡INVENTARIO CARGADO CON EXITO!");
+                                $("#CargadoFormulario").modal();
+                              
+                                return;
+                            }
+                        });
+
+                        //
+                    });
+
+                });
+
+            });
+
+
+
+
+        </script>
+        <div id="CompletaFormulario" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        <h4 class="modal-title">Alta de Marcas</h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center">
+                        <p id="Leyenda"></p>
+                        <img src="~/Images/modals/triste.png" width="100" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="EncontradoFormulario" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Alta de Marcas</h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center" id="mensaje" name="mensaje">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="CargadoFormulario" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                        <h4 class="modal-title">Alta de Marcas</h4>
+                    </div>
+                    <div class="modal-body" style="text-align:center">
+                        <p id="LeyendaExito"></p>
+                        <img src="~/Images/modals/feliz.png" width="100" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+    <style type="text/css">
+        #loading {
+            display: none;
+            background-color: gray;
+            z-index: 999999;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 300px;
+            filter: alpha(opacity=75);
+            -khtml-opacity: 0.75;
+            -moz-opacity: 0.75;
+            opacity: 0.75;
+        }
+    </style>
+    <div id="loading"><img src="~/Images/waitImage/copper-loader.gif" /></div>
+
+
+
+
+</body>
+
+</html>

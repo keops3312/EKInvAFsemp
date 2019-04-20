@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EKInvAFsemp.Web.Models.Marcas>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActInac)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoMarca)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Marca)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActInac)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Imagen))
+                {
+                    <img src="@Url.Content(item.Imagen)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoMarca)
+            </td>
+            <td>
+
+                <button type="button" class="btn btn-success btn-sm  modal-link" id="Editar"
+                        data-targeturl="@Url.Action("EditMarca","Marcas",new { id=item.IdMarca })">Cambiar</button>
+
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.IdMarca })*@
+            </td>
+        </tr>
+    }
+
+</table>
+<div id="modalEdit" class="modal fade" tabindex="-1" role="dialog">
+    <a href="#close" title="Close" class="modal-close-btn">X</a>
+    <div class="modal-content">
+        <div class="modal-body">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        $(function () {
+
+            $('#Editar').on('click', function (e) {
+                e.preventDefault();
+
+                $("#modalEdit").remove();
+
+                $.get($(this).data("targeturl"), function (data) {
+
+                    $('<div id="modalEdit" class="modal fade">' +
+                        '<div class="modal-content" id="modalbody">' +
+                        data + '</div></div>').modal();
+
+                });
+            });
+        });
+
+    });
+
+</script>
+
+

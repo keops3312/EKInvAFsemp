@@ -1,0 +1,74 @@
+﻿@model EKInvAFsemp.Web.Models.Tipos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tipos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Operador)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Operador)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.imagen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.imagen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActInac)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActInac)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreTipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreTipo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdTipos }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

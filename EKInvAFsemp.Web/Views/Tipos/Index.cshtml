@@ -1,0 +1,69 @@
+﻿@model IEnumerable<EKInvAFsemp.Web.Models.Tipos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Operador)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.imagen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActInac)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreTipo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Alta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Operador)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.imagen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActInac)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreTipo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdTipos }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdTipos }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdTipos })
+        </td>
+    </tr>
+}
+
+</table>
